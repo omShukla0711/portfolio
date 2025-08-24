@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             bio: "A creative  portfolio system designed from scratch without templates.",
             img: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=500&q=80",
             previewLink: "#",
-            codeLink: "#"
+            codeLink: "https://github.com/omShukla0711/portfolio"
         },
      
       
