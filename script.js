@@ -116,7 +116,14 @@ document.addEventListener('DOMContentLoaded', () => {
             previewLink: "#",
             codeLink: "https://github.com/omShukla0711/portfolio"
         },
-     
+      {
+            name: "Love- journey",
+            bio: "",
+            img: "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg",
+            previewLink: "https://princess-aditi.vercel.app",
+            codeLink: "https://github.com/omShukla0711/cute-aditi"
+        },
+    
       
     ];
 
