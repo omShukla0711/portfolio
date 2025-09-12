@@ -117,8 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
             codeLink: "https://github.com/omShukla0711/portfolio"
         },
       {
-            name: "Love- journey",
-            bio: "",
+            name: "Love- Site",
+            bio: "A demo of a greate purposal site for your crush. Made in HTML,CSS,JS,WEBGL,REACT ETC...",
             img: "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg",
             previewLink: "https://princess-aditi.vercel.app",
             codeLink: "https://github.com/omShukla0711/cute-aditi"
