@@ -165,3 +165,76 @@ body.light-mode .project-links a {
     box-shadow: 0 4px 20px rgba(var(--primary-color-rgb, 0, 255, 195), 0.3);
     border-color: var(--primary-color);
 }
+/* Update your existing cursor styles */
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary-color); /* Still use primary color for the core dot */
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background-color 0.3s ease; /* Add background-color transition */
+    z-index: 9999;
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, transform 0.1s ease-out;
+    z-index: 9999;
+    /* NEW: Add the glowing effect */
+    box-shadow: 
+        0 0 10px 5px rgba(255, 0, 150, 0.7), /* Pink glow */
+        0 0 20px 10px rgba(0, 200, 255, 0.5), /* Blue glow */
+        0 0 30px 15px rgba(255, 255, 0, 0.3); /* Yellow glow */
+    animation: cursorGlow 3s infinite alternate; /* Optional: Animate the glow */
+}
+
+/* Optional: Keyframes for animating the glow colors */
+@keyframes cursorGlow {
+    0% {
+        box-shadow: 
+            0 0 10px 5px rgba(255, 0, 150, 0.7),
+            0 0 20px 10px rgba(0, 200, 255, 0.5),
+            0 0 30px 15px rgba(255, 255, 0, 0.3);
+    }
+    33% {
+        box-shadow: 
+            0 0 10px 5px rgba(0, 255, 100, 0.7), /* Greenish glow */
+            0 0 20px 10px rgba(255, 50, 0, 0.5), /* Orangish glow */
+            0 0 30px 15px rgba(100, 0, 255, 0.3); /* Purplish glow */
+    }
+    66% {
+        box-shadow: 
+            0 0 10px 5px rgba(255, 150, 0, 0.7), /* Orange glow */
+            0 0 20px 10px rgba(0, 255, 255, 0.5), /* Cyan glow */
+            0 0 30px 15px rgba(255, 0, 255, 0.3); /* Magenta glow */
+    }
+    100% {
+        box-shadow: 
+            0 0 10px 5px rgba(255, 0, 150, 0.7),
+            0 0 20px 10px rgba(0, 200, 255, 0.5),
+            0 0 30px 15px rgba(255, 255, 0, 0.3);
+    }
+}
+
+/* Also, ensure your .trail-particle has some glow potential too, if desired */
+.trail-particle {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    z-index: 9998;
+    animation: fade-out 0.8s forwards;
+    /* NEW: Add a subtle glow to trail particles */
+    box-shadow: 0 0 5px 2px rgba(var(--primary-color-rgb, 0, 255, 195), 0.7); /* Use primary color for trail glow */
+}
+
+/* To extract RGB values from --primary-color for dynamic shadows,
+   you might need a small JS snippet or define a --primary-color-rgb variable in root
+   Example:
+   :root {
+       --primary-color: #00ffc3;
+       --primary-color-rgb: 0, 255, 195;
+   }
+*/
