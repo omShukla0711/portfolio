@@ -147,3 +147,144 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+// In your script.js file
+particlesJS.load('particles-js', 'particles.json', function() {
+  console.log('particles.js loaded - callback');
+});
+
+// --- Custom Cursor & Trail ---
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorOutline = document.querySelector('.cursor-outline');
+const interactiveElements = document.querySelectorAll('.interactive'); // Select all interactive elements
+
+let mouseX = 0;
+let mouseY = 0;
+let outlineX = 0;
+let outlineY = 0;
+
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    cursorDot.style.left = `${mouseX}px`;
+    cursorDot.style.top = `${mouseY}px`;
+
+    // Trail effect
+    createTrailParticle(mouseX, mouseY);
+});
+
+function animateCursorOutline() {
+    outlineX += (mouseX - outlineX) / 8; // Adjust division for speed
+    outlineY += (mouseY - outlineY) / 8;
+    cursorOutline.style.left = `${outlineX}px`;
+    cursorOutline.style.top = `${outlineY}px`;
+    requestAnimationFrame(animateCursorOutline);
+}
+animateCursorOutline();
+
+function createTrailParticle(x, y) {
+    const particle = document.createElement('div');
+    particle.className = 'trail-particle';
+    particle.style.left = `${x}px`;
+    particle.style.top = `${y}px`;
+    particle.style.width = '10px'; // Initial size
+    particle.style.height = '10px';
+    particle.style.opacity = '0.7'; // Initial opacity
+
+    // Use current cursor color for trail
+    const currentCursorColor = cursorDot.style.backgroundColor || getComputedStyle(cursorDot).backgroundColor;
+    particle.style.backgroundColor = currentCursorColor;
+
+    document.body.appendChild(particle);
+
+    setTimeout(() => {
+        particle.remove();
+    }, 800); // Match animation duration
+}
+
+// --- Dynamic Interactive Element Colors & Cursor Hover States ---
+
+// Function to generate a vibrant, random color
+function getRandomVibrantColor() {
+    const hue = Math.floor(Math.random() * 360);
+    const saturation = '90%'; // High saturation for vibrancy
+    const lightness = '60%'; // Mid-lightness
+    return `hsl(${hue}, ${saturation}, ${lightness})`;
+}
+
+// Function to convert HSL to RGBA for glow effects
+function hslToRgba(hsl, alpha = 0.5) {
+    const parts = hsl.match(/\d+/g).map(Number);
+    const h = parts[0];
+    const s = parts[1] / 100;
+    const l = parts[2] / 100;
+
+    let c = (1 - Math.abs(2 * l - 1)) * s,
+        x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
+        m = l - c / 2,
+        r = 0,
+        g = 0,
+        b = 0;
+
+    if (0 <= h && h < 60) {
+        r = c;
+        g = x;
+        b = 0;
+    } else if (60 <= h && h < 120) {
+        r = x;
+        g = c;
+        b = 0;
+    } else if (120 <= h && h < 180) {
+        r = 0;
+        g = c;
+        b = x;
+    } else if (180 <= h && h < 240) {
+        r = 0;
+        g = x;
+        b = c;
+    } else if (240 <= h && h < 300) {
+        r = x;
+        g = 0;
+        b = c;
+    } else if (300 <= h && h < 360) {
+        r = c;
+        g = 0;
+        b = x;
+    }
+    r = Math.round((r + m) * 255);
+    g = Math.round((g + m) * 255);
+    b = Math.round((b + m) * 255);
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+// Assign unique colors and event listeners to interactive elements
+interactiveElements.forEach(el => {
+    const uniqueColor = getRandomVibrantColor();
+    const uniqueColorRgba = hslToRgba(uniqueColor, 0.5); // For glow
+    const uniqueColorRgb = hslToRgba(uniqueColor, 1).replace('rgba(', '').replace(', 1)', ''); // For individual R,G,B values
+
+    // Set CSS variables on the element for CSS hover effects
+    el.style.setProperty('--hover-border-color', uniqueColor);
+    el.style.setProperty('--hover-glow-color-rgba', uniqueColorRgba);
+    el.style.setProperty('--hover-glow-color-rgb', uniqueColorRgb); // For box-shadow with individual values
+
+    el.addEventListener('mouseenter', () => {
+        cursorDot.classList.add('hovered');
+        cursorOutline.classList.add('hovered');
+        // Apply the element's unique color to the cursor
+        cursorDot.style.setProperty('--element-hover-color', uniqueColor);
+        cursorOutline.style.setProperty('--element-hover-color', uniqueColor);
+        // Also set RGB for cursor outline glow
+        cursorOutline.style.setProperty('--element-hover-color-rgb', uniqueColorRgb);
+    });
+
+    el.addEventListener('mouseleave', () => {
+        cursorDot.classList.remove('hovered');
+        cursorOutline.classList.remove('hovered');
+        // Reset cursor color to primary if no other interactive element is hovered
+        cursorDot.style.removeProperty('--element-hover-color');
+        cursorOutline.style.removeProperty('--element-hover-color');
+        cursorOutline.style.removeProperty('--element-hover-color-rgb');
+    });
+});
