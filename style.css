@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
 :root {
-    --bg-color: #0f172a; --text-color: #e2e8f0; --primary-color: #00ffc3;
-    --card-bg-color: #1e293b; --border-color: rgba(148, 163, 184, 0.2);
+    --bg-color: #000000; --text-color: #e2e8f0; --primary-color: #00ffc3;
+    --card-bg-color: #110404; --border-color: rgba(148, 163, 184, 0.2);
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.2); --transition: all 0.3s ease-in-out;
 }
 body.light-mode {
@@ -42,8 +42,9 @@ body.light-mode { background-image: url('data:image/svg+xml,%3Csvg width="60" he
 .interactive { transition: transform 0.2s ease-out; }
 #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; }
 header {
+    
     position: fixed; top: 0; width: 100%; z-index: 1000;
-    background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px);
+    background: rgba(9, 19, 34, 0.336); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-color);
 }
 body.light-mode header { background: rgba(255, 255, 255, 0.7); }
@@ -165,6 +166,7 @@ body.light-mode .project-links a {
     box-shadow: 0 4px 20px rgba(var(--primary-color-rgb, 0, 255, 195), 0.3);
     border-color: var(--primary-color);
 }
+
 /* Update your existing cursor styles */
 .cursor-dot {
     width: 8px;
@@ -229,12 +231,166 @@ body.light-mode .project-links a {
     /* NEW: Add a subtle glow to trail particles */
     box-shadow: 0 0 5px 2px rgba(var(--primary-color-rgb, 0, 255, 195), 0.7); /* Use primary color for trail glow */
 }
+/* Previous .cursor-outline styles */
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, transform 0.1s ease-out;
+    z-index: 9999;
+    box-shadow: 
+        0 0 10px 5px rgba(255, 0, 150, 0.7), /* Pink glow */
+        0 0 20px 10px rgba(0, 200, 255, 0.5), /* Blue glow */
+        0 0 30px 15px rgba(255, 255, 0, 0.3); /* Yellow glow */
+    animation: cursorGlow 3s infinite alternate; /* Optional: Animate the glow */
+}
 
-/* To extract RGB values from --primary-color for dynamic shadows,
-   you might need a small JS snippet or define a --primary-color-rgb variable in root
-   Example:
-   :root {
-       --primary-color: #00ffc3;
-       --primary-color-rgb: 0, 255, 195;
-   }
-*/
+/* Updated .trail-particle to use border for the connection effect */
+.trail-particle {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    z-index: 9998;
+    animation: fade-out 0.8s forwards;
+    box-shadow: 0 0 5px 2px rgba(var(--primary-color-rgb, 0, 255, 195), 0.7);
+    /* NEW: Add a border that can be styled to look like a connection */
+    border: 1px solid transparent; /* Start transparent, will be changed by JS */
+}
+
+/* Ensure these keyframes are still defined */
+@keyframes cursorGlow {
+    0% {
+        box-shadow: 
+            0 0 10px 5px rgba(255, 0, 150, 0.7),
+            0 0 20px 10px rgba(0, 200, 255, 0.5),
+            0 0 30px 15px rgba(255, 255, 0, 0.3);
+    }
+    33% {
+        box-shadow: 
+            0 0 10px 5px rgba(0, 255, 100, 0.7), /* Greenish glow */
+            0 0 20px 10px rgba(255, 50, 0, 0.5), /* Orangish glow */
+            0 0 30px 15px rgba(100, 0, 255, 0.3); /* Purplish glow */
+    }
+    66% {
+        box-shadow: 
+            0 0 10px 5px rgba(255, 150, 0, 0.7), /* Orange glow */
+            0 0 20px 10px rgba(0, 255, 255, 0.5), /* Cyan glow */
+            0 0 30px 15px rgba(255, 0, 255, 0.3); /* Magenta glow */
+    }
+    100% {
+        box-shadow: 
+            0 0 10px 5px rgba(255, 0, 150, 0.7),
+            0 0 20px 10px rgba(0, 200, 255, 0.5),
+            0 0 30px 15px rgba(255, 255, 0, 0.3);
+    }
+}
+/* --- Custom Cursor & Trail --- */
+.cursor-dot, .cursor-outline {
+    pointer-events: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    z-index: 9999;
+    transition: transform 0.1s ease-out, width 0.2s, height 0.2s, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary-color);
+    transform: translate(-50%, -50%);
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--primary-color);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px 5px rgba(255, 0, 150, 0.7), 0 0 20px 10px rgba(0, 200, 255, 0.5), 0 0 30px 15px rgba(255, 255, 0, 0.3);
+    animation: cursorGlow 3s infinite alternate;
+}
+
+/* Hover states for the cursor */
+.cursor-dot.hovered {
+    width: 16px;
+    height: 16px;
+    background-color: var(--element-hover-color, var(--primary-color)); /* Use element's specific color */
+}
+
+.cursor-outline.hovered {
+    width: 60px;
+    height: 60px;
+    border-color: var(--element-hover-color, var(--primary-color)); /* Use element's specific color */
+    box-shadow: 0 0 15px 7px var(--element-hover-color-rgb, var(--primary-color)), 
+                0 0 30px 15px rgba(var(--element-hover-color-rgb, 0, 255, 195), 0.5);
+    animation: none; /* Disable general glow when hovering an element */
+}
+
+/* Optional: Keyframes for animating the general cursor glow */
+@keyframes cursorGlow {
+    0% { box-shadow: 0 0 10px 5px rgba(255, 0, 150, 0.7), 0 0 20px 10px rgba(0, 200, 255, 0.5), 0 0 30px 15px rgba(255, 255, 0, 0.3); }
+    33% { box-shadow: 0 0 10px 5px rgba(0, 255, 100, 0.7), 0 0 20px 10px rgba(255, 50, 0, 0.5), 0 0 30px 15px rgba(100, 0, 255, 0.3); }
+    66% { box-shadow: 0 0 10px 5px rgba(255, 150, 0, 0.7), 0 0 20px 10px rgba(0, 255, 255, 0.5), 0 0 30px 15px rgba(255, 0, 255, 0.3); }
+    100% { box-shadow: 0 0 10px 5px rgba(255, 0, 150, 0.7), 0 0 20px 10px rgba(0, 200, 255, 0.5), 0 0 30px 15px rgba(255, 255, 0, 0.3); }
+}
+
+.trail-particle {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    z-index: 9998;
+    animation: fade-out 0.8s forwards;
+    box-shadow: 0 0 5px 2px rgba(var(--primary-color-rgb, 0, 255, 195), 0.7);
+}
+
+/* --- Interactive Element Hover Styles --- */
+.interactive {
+    transition: transform 0.2s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative; /* Needed for pseudo-elements if you want more complex inner glows */
+    overflow: hidden; /* Ensures inner glow doesn't spill out */
+    border: 1px solid var(--border-color); /* Add a default subtle border */
+}
+
+/* Specific hover effects */
+.interactive:hover {
+    border-color: var(--hover-border-color, var(--primary-color));
+    box-shadow: 0 0 15px 5px var(--hover-glow-color-rgba, rgba(0, 255, 195, 0.5)); /* Inner glow */
+    transform: translateY(-3px) scale(1.02); /* Slight lift for all interactive elements */
+}
+
+/* Special treatment for skill cards and goal items */
+.skill-card.interactive:hover,
+.goal-item.interactive:hover {
+    transform: scale(1.03); /* A bit more pronounced scale for cards */
+    box-shadow: 0 0 25px 8px var(--hover-glow-color-rgba, rgba(0, 255, 195, 0.7)),
+                var(--shadow); /* Keep the original shadow too */
+}
+
+/* Project cards have a different base style, so adjust */
+.project-card.interactive:hover {
+    transform: scale(1.05); /* Make project cards stand out more */
+    box-shadow: 0 0 30px 10px var(--hover-glow-color-rgba, rgba(0, 255, 195, 0.8));
+}
+
+/* Remove default cursor for interactive elements */
+.interactive {
+    cursor: none !important;
+}
+
+/* Ensure default cursor for non-interactive elements */
+body {
+    cursor: none; /* Keep the custom cursor for the whole body */
+}
+
+/* Media query to disable custom cursor on small screens */
+@media (max-width: 768px) {
+    .cursor-dot, .cursor-outline, .trail-particle {
+        display: none;
+    }
+    body, a, button, .interactive {
+        cursor: initial !important; 
+    };
