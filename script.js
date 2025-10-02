@@ -123,6 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
             previewLink: "https://princess-aditi.vercel.app",
             codeLink: "https://github.com/omShukla0711/cute-aditi"
         },
+          {
+            name: "Birthday",
+            bio: "A birthday wish for my friend Sanya using web technology",
+            img: "https://images.unsplash.com/photo-1619597455322-4fbbd820250a?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGVza3RvcHxlbnwwfHwwfHx8MA%3D%3D",
+            previewLink: "https://happy-bddy-sanya.vercel.app/",
+            codeLink: "https://github.com/omShukla0711/birthdayy"
+        },
     
       
     ];
